@@ -19,6 +19,8 @@
 - Redis should have persistent storage & network ID.
 - Manage variables using Kubernetes native capabilities.
 - One pod per each workload is fine, no need for over provisioning.
+- Expose the Go app using nodeport or loadbalancer service.
+- Redis should be exposed with the appropriate service type that is suitable for internal communications.
 
 
 # Deliverables:
