@@ -1,4 +1,4 @@
-name: Deploy Go App
+name: Build & Push App Image
 
 on:
   push:
