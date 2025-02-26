@@ -34,17 +34,31 @@ jobs:
           docker tag docker-k8s-challenge-app:latest ${{ secrets.DOCKER_USERNAME }}/docker-k8s-challenge_app:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/docker-k8s-challenge_app:latest
 
-  # deploy:
-  #   needs: build-and-push
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Checkout Code
-  #       uses: actions/checkout@v4
-
-  #     - name: Deploy to Kubernetes
-  #       uses: azure/setup-kubectl@v3
-        
-  #     - name: Apply Kubernetes manifests
-  #       run: |
-  #         kubectl apply -f k8s/
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+  
+      - name: Install Minikube
+        run: |
+          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          chmod +x minikube
+          sudo mv minikube /usr/local/bin/
+  
+      - name: Start Minikube
+        run: |
+          sudo minikube start --driver=none --kubernetes-version=v1.28.0
+          minikube status
+  
+      - name: Configure kubectl
+        run: |
+          sudo minikube kubectl -- get pods -A
+          sudo minikube kubectl -- cluster-info
+  
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f k8s/
+          kubectl get all -A
