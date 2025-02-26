@@ -2,10 +2,9 @@
 
 ![Deploy Status](https://github.com/gimmeursocks/docker-k8s-challenge/actions/workflows/ci-cd.yaml/badge.svg)
 
+## Overview
 
-##  Overview:
 - My task is to troubleshoot, fix, and deploy a Go web application that uses Redis for caching. There are some issues in the Dockerfile or the Go code. After fixing these issues, the app is to be deployed to a Kubernetes cluster with Redis.
-
 
 ## Part 1: Fix the Dockerfile and Go Application
 
@@ -15,8 +14,7 @@
 - Optimized image size using multistage builds by using `debian:bookworm-slim`, effectively reducing image size from 1.03GB to 83.2MB (~92% size reduction!!!)
 - Could have used smaller images like `alpine` (final size: 16.2MB!!), but this Go application depends on `glibc` to work
 
-
-# Proof:
+### Proof
 
 <div style="text-align: center;">
 
@@ -38,9 +36,9 @@
   (notice the reduction in image size!!)</p>
 </div>
 
-
 ## Part 2: Deploy to Kubernetes
-- Created Kubernetes YAML files and deployed Go (as **stateless** workload) and Redis (as **stateful** workload).
+
+- Created Kubernetes YAML files and deployed Go (as **stateless** workload) and Redis (as **stateful** workload)
 - Used separate namespaces: `app` & `db`
 - Set up PVC for Redis persistent storage
 - Set up clusterIP as none to make network ID stable
@@ -50,8 +48,7 @@
 - Used nodeport due to local deployment using minikube
 - Exposed Redis internally with stateful state with static hostname
 
-
-# Proof:
+### Proof
 
 <div style="text-align: center;">
   
@@ -112,4 +109,18 @@
   ![k8s-conclusion](images/k8s-pods-and-services.png)
 
   <p>Pods and Services</p>
+</div>
+
+## Bonus
+
+- Created Github Action workflow to automatically build and test the deployment of k8s
+- Auto builds using docker compose and then pushes to docker hub
+- It tests the deployment of k8s by installing and running minikube in the workflow
+
+<div style="text-align: center;">
+  
+  ![k8s-namespaces](images/github-actions-testing.png)
+
+  <p>Testing service URLs in the new deployment</p>
+
 </div>
