@@ -42,63 +42,28 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-   
-      - name: Install Dependencies
+      - name: Start minikube
+        uses: medyagh/setup-minikube@latest
+        
+      - name: Try the cluster!
+        run: kubectl get pods -A
+        
+      - name: Build image
         run: |
-          sudo apt-get update
-          sudo apt-get install -y conntrack socat iptables ebtables ethtool openssl
+          minikube image build -t local/devex:v1 .
           
-          # Install Docker from official repo
-          sudo apt-get remove -y containerd containerd.io
-          sudo apt-get update
-          sudo apt-get install -y ca-certificates curl gnupg
+      - name: Deploy to minikube
+        run:
+          kubectl apply -f deploy/k8s.yaml
+          kubectl wait --for=condition=ready pod -l app=local-devex
           
-          # Add Docker's official GPG key
-          sudo install -m 0755 -d /etc/apt/keyrings
-          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /etc/apt/keyrings/docker.asc > /dev/null
-          sudo chmod a+r /etc/apt/keyrings/docker.asc
-          
-          # Add Docker repository
-          echo \
-            "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-            $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-          
-          sudo apt-get update
-          sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-          
-          # Install crictl
-          VERSION="v1.28.0"
-          curl -LO "https://github.com/kubernetes-sigs/cri-tools/releases/download/$VERSION/crictl-$VERSION-linux-amd64.tar.gz"
-          sudo tar -C /usr/local/bin -xzf "crictl-$VERSION-linux-amd64.tar.gz"
-          rm "crictl-$VERSION-linux-amd64.tar.gz"
-  
-          # Install kubectl
-          curl -LO "https://dl.k8s.io/release/v1.28.0/bin/linux/amd64/kubectl"
-          chmod +x kubectl
-          sudo mv kubectl /usr/local/bin/
-
-      - name: Install Minikube
+      - name: Test service URLs
         run: |
-          curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-          chmod +x minikube
-          sudo mv minikube /usr/local/bin/
-  
-      - name: Install cri-dockerd and Start Minikube
-        run: |
-          # Install cri-dockerd
-          sudo apt-get install -y golang-go
-          git clone https://github.com/Mirantis/cri-dockerd.git
-          cd cri-dockerd
-          mkdir -p bin
-          go build -o bin/cri-dockerd
-          sudo install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
-          cd ..
-          rm -rf cri-dockerd
+          minikube service list
+          minikube service local-devex-svc --url
+          echo "------------------opening the service------------------"
+          curl $(minikube service local-devex-svc --url)
           
-          # Start Minikube
-          sudo minikube start --driver=none --container-runtime=docker --kubernetes-version=v1.28.0
-          minikube status
-  
       - name: Configure kubectl
         run: |
           sudo minikube kubectl -- get pods -A
