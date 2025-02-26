@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-app
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-app
+  template:
+    metadata:
+      labels:
+        app: go-app
+    spec:
+      containers:
+        - name: go-app
+          image: gimmeursocks/docker-k8s-challenge_app:latest  # my uploaded image
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_PORT
+              value: "8080"
+            - name: REDIS_HOST
+              value: "redis.db.svc.cluster.local"j
+            - name: REDIS_PORT
+              value: "6379"
