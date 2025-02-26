@@ -50,12 +50,12 @@ jobs:
 
       - name: Deploy to Minikube
         run: |
-          kubectl apply -f namespaces.yaml
-          kubectl apply -f go-deployment.yaml
-          kubectl apply -f go-service-nodeport.yaml
-          kubectl apply -f redis-pvc.yaml
-          kubectl apply -f redis-statefulset.yaml
-          kubectl apply -f redis-service.yaml
+          kubectl apply -f k8s/namespaces.yaml
+          kubectl apply -f k8s/go-deployment.yaml
+          kubectl apply -f k8s/go-service-nodeport.yaml
+          kubectl apply -f k8s/redis-pvc.yaml
+          kubectl apply -f k8s/redis-statefulset.yaml
+          kubectl apply -f k8s/redis-service.yaml
           kubectl wait --for=condition=ready pod --all --timeout=90s
 
       - name: Test service URLs
