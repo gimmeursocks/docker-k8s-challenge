@@ -34,17 +34,17 @@ jobs:
           docker tag docker-k8s-challenge-app:latest ${{ secrets.DOCKER_USERNAME }}/docker-k8s-challenge_app:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/docker-k8s-challenge_app:latest
 
-  deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
+  # deploy:
+  #   needs: build-and-push
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout Code
+  #       uses: actions/checkout@v4
 
-      - name: Deploy to Kubernetes
-        uses: azure/setup-kubectl@v3
+  #     - name: Deploy to Kubernetes
+  #       uses: azure/setup-kubectl@v3
         
-      - name: Apply Kubernetes manifests
-        run: |
-          kubectl apply -f k8s/
+  #     - name: Apply Kubernetes manifests
+  #       run: |
+  #         kubectl apply -f k8s/
