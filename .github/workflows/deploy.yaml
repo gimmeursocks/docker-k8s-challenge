@@ -35,7 +35,7 @@ jobs:
 
       - name: Tag and Push Docker Image
         run: |
-          docker tag docker-k8s-challenge_app:latest ${{ secrets.DOCKER_USERNAME }}/docker-k8s-challenge_app:latest
+          docker tag docker-k8s-challenge-app:latest ${{ secrets.DOCKER_USERNAME }}/docker-k8s-challenge_app:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/docker-k8s-challenge_app:latest
 
   deploy:
