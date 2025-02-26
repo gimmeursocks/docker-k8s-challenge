@@ -33,6 +33,9 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: List Docker images
+        run: docker images
+        
       - name: Tag and Push Docker Image
         run: |
           docker tag docker-k8s-challenge-app:latest ${{ secrets.DOCKER_USERNAME }}/docker-k8s-challenge_app:latest
