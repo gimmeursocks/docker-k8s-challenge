@@ -56,7 +56,6 @@ jobs:
           kubectl apply -f k8s/redis-pvc.yaml
           kubectl apply -f k8s/redis-statefulset.yaml
           kubectl apply -f k8s/redis-service.yaml
-          kubectl wait --for=condition=ready pod --all --timeout=90s
 
       - name: Test service URLs
         run: |
