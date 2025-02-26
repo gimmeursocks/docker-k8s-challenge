@@ -83,9 +83,20 @@ jobs:
           chmod +x minikube
           sudo mv minikube /usr/local/bin/
   
-      - name: Start Minikube
+      - name: Install cri-dockerd and Start Minikube
         run: |
-          sudo minikube start --driver=none --kubernetes-version=v1.28.0
+          # Install cri-dockerd
+          sudo apt-get install -y golang-go
+          git clone https://github.com/Mirantis/cri-dockerd.git
+          cd cri-dockerd
+          mkdir -p bin
+          go build -o bin/cri-dockerd
+          sudo install -o root -g root -m 0755 bin/cri-dockerd /usr/local/bin/cri-dockerd
+          cd ..
+          rm -rf cri-dockerd
+          
+          # Start Minikube
+          sudo minikube start --driver=none --container-runtime=docker --kubernetes-version=v1.28.0
           minikube status
   
       - name: Configure kubectl
