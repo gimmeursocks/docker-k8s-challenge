@@ -45,31 +45,16 @@ jobs:
       - name: Start minikube
         uses: medyagh/setup-minikube@latest
         
-      - name: Try the cluster!
+      - name: Test the cluster
         run: kubectl get pods -A
-        
-      - name: Build image
+
+      - name: Deploy to Minikube
         run: |
-          minikube image build -t local/devex:v1 .
-          
-      - name: Deploy to minikube
-        run:
-          kubectl apply -f deploy/k8s.yaml
-          kubectl wait --for=condition=ready pod -l app=local-devex
-          
+          kubectl apply -f k8s/
+          kubectl wait --for=condition=ready pod --all --timeout=90s
+
       - name: Test service URLs
         run: |
           minikube service list
-          minikube service local-devex-svc --url
           echo "------------------opening the service------------------"
-          curl $(minikube service local-devex-svc --url)
-          
-      - name: Configure kubectl
-        run: |
-          sudo minikube kubectl -- get pods -A
-          sudo minikube kubectl -- cluster-info
-  
-      - name: Apply Kubernetes manifests
-        run: |
-          kubectl apply -f k8s/
-          kubectl get all -A
+          kubectl get svc -A
