@@ -1,5 +1,8 @@
 # DevOps Challenge: Fix &amp; Deploy Go App with Redis
 
+![Deploy Status](https://github.com/gimmeursocks/docker-k8s-challenge/actions/workflows/deploy.yaml/badge.svg)
+
+
 ##  Overview:
 - My task is to troubleshoot, fix, and deploy a Go web application that uses Redis for caching. There are some issues in the Dockerfile or the Go code. After fixing these issues, the app is to be deployed to a Kubernetes cluster with Redis.
 
