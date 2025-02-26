@@ -6,8 +6,8 @@ RUN apt update && apt install git -y
 # Create and set the working directory
 WORKDIR /app
 
-# Copy the application code & dependencies
-COPY app/ /app
+# Copy the application code
+COPY app/ ./
 
 # Get Go dependencies
 RUN go mod tidy
@@ -16,7 +16,7 @@ RUN go mod tidy
 RUN go build -o myapp ./main.go
 
 # Expose the app port
-EXPOSE 80
+EXPOSE 8080
 
 # Run the Go application
-CMD ["/bin/myapp"]
+CMD ["/app/myapp"]
