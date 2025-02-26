@@ -1,6 +1,6 @@
 # DevOps Challenge: Fix &amp; Deploy Go App with Redis
 
-![Deploy Status](https://github.com/gimmeursocks/docker-k8s-challenge/actions/workflows/deploy.yaml/badge.svg)
+![Deploy Status](https://github.com/gimmeursocks/docker-k8s-challenge/actions/workflows/ci-cd.yaml/badge.svg)
 
 
 ##  Overview:
