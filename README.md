@@ -6,11 +6,11 @@
 
 ## Part 1: Fix the Dockerfile and Go Application
 
-- You’re given a Dockerfile & Go source code & dependencies.
-- The Go app uses Redis to cache the number of visitors.
-- Review and fix the issues in the Dockerfile or Go code to be able to build and run the app successfully.
-- **Important:** For the Go app to run, you must have a running Redis container.
-- **Bonus:** optimize the Go app image size. 
+- Fixed bug in `CMD ["bin/myapp"]` to `CMD ["app/myapp"]`
+- Changed PORT to 8080 to ensure clarity
+- Set up a redis container using docker-compose and passed its environment variables
+- Optimized image size using multistage builds by using `debian:bookworm-slim`, effectively reducing image size from 1.03GB to 83.2MB (~92% size reduction!!!)
+- Could have used smaller images like `alpine` (final size: 16.2MB!!), but this go application depends on `glibc` to work
 
 
 ## Part 2: Deploy to Kubernetes
@@ -23,13 +23,36 @@
 - Redis should be exposed with the appropriate service type that is suitable for internal communications.
 
 
-# Deliverables:
-- A Github repository contains:
-    - Fixed Dockerfile & Go App code.
-    - Working Kubernetes YAML files.
-- Evidence of the working Docker container & image build (status & logs & screenshots).
-- Evidence of the working Kubernetes YAML files (status & logs & screenshots).
-- **Bonus:** Evidence of optimized image size. 
+# Proof:
+
+<div style="text-align: center;">
+  
+  ![docker-compose](images/docker-compose-build.png)
+
+  <p style="font-style: italic;">docker-compose up --build</p>
+</div>
+
+<div style="text-align: center;">
+  
+  ![docker-logs](images/docker-logs.png)
+  
+  <p style="font-style: italic;">docker compose logs app</p>
+</div>
+
+<div style="text-align: center;">
+  
+  ![docker-ps-and-curl](images/docker-ps-and-curl.png)
+  
+  <p style="font-style: italic;">docker ps & curl http://localhost:8080</p>
+</div>
+
+<div style="text-align: center;">
+
+  ![docker-images](images/docker-images.png)
+  
+  <p style="font-style: italic;">docker images
+  (notice the reduction in image size!!)</p>
+</div>
 
 
 # This challenge will help you:
