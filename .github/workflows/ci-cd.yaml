@@ -1,4 +1,4 @@
-name: Build & Push App Image
+name: Build & Deploy App
 
 on:
   push:
@@ -41,7 +41,12 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-  
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y conntrack
+
       - name: Install Minikube
         run: |
           curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
