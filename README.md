@@ -11,8 +11,7 @@
 - Fixed bug in `CMD ["bin/myapp"]` to `CMD ["app/myapp"]`
 - Changed PORT to 8080 to ensure clarity
 - Set up a Redis container using docker-compose and passed its environment variables
-- Optimized image size using multistage builds by using `debian:bookworm-slim`, effectively reducing image size from 1.03GB to 83.2MB (~92% size reduction!!!)
-- Could have used smaller images like `alpine` (final size: 16.2MB!!), but this Go application depends on `glibc` to work
+- Optimized image size using multistage builds through `golang:1.23-alpine` and a scratch image, effectively reducing image size from 1.03GB to 5.71MB (~99.45% size reduction!!!)
 
 ### Proof
 
