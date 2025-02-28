@@ -68,7 +68,7 @@ jobs:
       
       - name: Debug information
         run: |
-          # Only run the rest when app starts (app won't start before Redis)
+          echo "Waiting for Go pod to be Ready..."
           kubectl wait --for=condition=ready pod -n app --timeout=90s --all
           kubectl get pods -n app
           kubectl describe pods -n app
