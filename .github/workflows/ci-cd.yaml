@@ -69,6 +69,7 @@ jobs:
       - name: Debug information
         run: |
           kubectl get pods -n app
+          sleep 10
           kubectl describe pods -n app
           kubectl logs -n app $(kubectl get pods -n app -o name | head -1)
           kubectl describe svc -n app go-app-service
