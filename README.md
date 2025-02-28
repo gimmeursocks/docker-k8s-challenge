@@ -118,8 +118,12 @@
 
 <div style="text-align: center;">
   
-  ![k8s-namespaces](images/github-actions-testing.png)
+  ![cicd-service-urls](images/github-actions-testing.png)
 
   <p>Testing service URLs in the new deployment</p>
 
+  ![cicd-curl-test](images/github-actions-curl-testing.png)
+
+  <p>Testing application through curl</p>
+  
 </div>

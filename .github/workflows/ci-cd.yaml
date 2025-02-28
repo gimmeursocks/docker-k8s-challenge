@@ -34,7 +34,7 @@ jobs:
           docker tag docker-k8s-challenge-app:latest ${{ secrets.DOCKER_USERNAME }}/docker-k8s-challenge_app:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/docker-k8s-challenge_app:latest
 
-  deploy:
+  deploy-and-test:
     needs: build-and-push
     runs-on: ubuntu-latest
   
@@ -62,3 +62,10 @@ jobs:
           minikube service list
           echo "------------------opening the service------------------"
           kubectl get svc -A
+
+      - name: Test application via curl
+        run: |
+          MINIKUBE_IP=$(minikube ip)
+          echo "Minikube IP: $MINIKUBE_IP"
+          echo "Testing service on port 30080..."
+          curl -v http://$MINIKUBE_IP:30080/
