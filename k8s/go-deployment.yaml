@@ -18,10 +18,21 @@ spec:
           image: gimmeursocks/docker-k8s-challenge_app:latest  # my uploaded image
           ports:
             - containerPort: 8080
+          readinessProbe:  # Check if Redis is ready before start
+            tcpSocket:
+              port: 6379
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:  # Make sure it is working properly aswell
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
           env:
             - name: APP_PORT
               value: "8080"
             - name: REDIS_HOST
-              value: "redis-0.redis.db.svc.cluster.local"
+              value: "redis.db.svc.cluster.local"
             - name: REDIS_PORT
               value: "6379"
