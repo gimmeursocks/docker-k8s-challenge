@@ -68,6 +68,7 @@ jobs:
       
       - name: Debug information
         run: |
+          sleep 15
           kubectl get pods -n app
           sleep 10
           kubectl describe pods -n app
