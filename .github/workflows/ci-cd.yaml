@@ -68,6 +68,7 @@ jobs:
       
       - name: Debug information
         run: |
+          kubectl wait --for=condition=ready pod -n app --timeout=30s --all
           kubectl get pods -n app
           kubectl describe pods -n app
           kubectl logs -n app $(kubectl get pods -n app -o name | head -1)
