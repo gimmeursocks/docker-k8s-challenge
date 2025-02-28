@@ -115,12 +115,17 @@
 - Created Github Action workflow to automatically build and test the deployment of k8s
 - Auto builds using docker compose and then pushes to docker hub
 - It tests the deployment of k8s by installing and running minikube in the workflow
+- Then waits for successful deployment to curl into it
 
 <div style="text-align: center;">
   
   ![cicd-service-urls](images/github-actions-testing.png)
 
   <p>Testing service URLs in the new deployment</p>
+
+  ![cicd-debug-info](images/github-actions-debug.png)
+
+  <p>Showing relevant debug information</p>
 
   ![cicd-curl-test](images/github-actions-curl-testing.png)
 
