@@ -65,16 +65,17 @@ jobs:
           minikube service list
           echo "------------------opening the service------------------"
           kubectl get svc -A
-          - name: Debug information
-          run: |
-            kubectl get pods -n app
-            kubectl describe pods -n app
-            kubectl logs -n app $(kubectl get pods -n app -o name | head -1)
-            kubectl describe svc -n app go-app-service
-            # Add a small delay to ensure app is ready
-            sleep 10
-            # Try curl again after delay
-            curl -v http://$MINIKUBE_IP:30080/
+      
+      - name: Debug information
+        run: |
+          kubectl get pods -n app
+          kubectl describe pods -n app
+          kubectl logs -n app $(kubectl get pods -n app -o name | head -1)
+          kubectl describe svc -n app go-app-service
+          # Add a small delay to ensure app is ready
+          sleep 10
+          # Try curl again after delay
+          curl -v http://$MINIKUBE_IP:30080/
       
       - name: Test application via curl
         run: |
