@@ -13,14 +13,19 @@ spec:
       labels:
         app: go-app
     spec:
+      initContainers: # Only starts when redis is ready
+        - name: check-redis
+          image: busybox
+          command: ['sh', '-c', 'until nc -z redis.db.svc.cluster.local 6379; do echo waiting for redis; sleep 2; done;']
       containers:
         - name: go-app
           image: gimmeursocks/docker-k8s-challenge_app:latest  # my uploaded image
           ports:
             - containerPort: 8080
           readinessProbe:  # Check if Redis is ready before start
-            tcpSocket:
-              port: 6379
+            httpGet:
+              path: /health
+              port: 8080
             initialDelaySeconds: 5
             periodSeconds: 5
           livenessProbe:  # Make sure it is working properly aswell
