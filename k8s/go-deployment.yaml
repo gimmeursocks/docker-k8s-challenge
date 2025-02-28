@@ -22,6 +22,6 @@ spec:
             - name: APP_PORT
               value: "8080"
             - name: REDIS_HOST
-              value: "redis.db.svc.cluster.local"
+              value: "redis-0.redis.db.svc.cluster.local"
             - name: REDIS_PORT
               value: "6379"
